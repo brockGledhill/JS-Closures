@@ -12,10 +12,10 @@ var outer = function(){
 // Invoke outer saving the return value into another variable called 'inner'.
 
 // Code Here
-
+var inner = outer();
 
 //Once you do that, invoke inner.
-
+inner();
   //Code Here
 
 
@@ -36,7 +36,9 @@ var callFriend = function(){
 // Create a makeCall function that when invoked logs  'Calling Jake at 435-215-9248' in your console.
 
   //Code Here
-
+ var makeCall = function(callFriend) {
+  return callF(435-215-9248);
+ }
 
 
 
@@ -52,13 +54,19 @@ var callFriend = function(){
 */
 
 //Code Here
+var makeCounter = function() {
+  var num = 1;
+  return function() {
+    return num++;
+    }
+  }
 
-//Uncomment this once you make your function
-//   var count = makeCounter();
-//   count(); // 1
-//   count(); // 2
-//   count(); // 3
-//   count(); // 4
+   var count = makeCounter();
+   count();
+   count();
+   count();
+   count();
+
 
 
 
@@ -73,11 +81,18 @@ var callFriend = function(){
 
 function counterFactory(value) {
 
-  // Code here.
-
-
   return {
+    inc : function() {
+      value++;
+      return value;
+    },
+
+    dec : function() {
+      value--;
+      return value;
+    }
   }
+
 }
 
 
@@ -96,10 +111,11 @@ counter = counterFactory(10);
     var welcomeText = 'You\'re doing awesome, keep it up ';
 
     // code message function here.
+    function message() {
+      return welcomeText + firstname + " " + lastname + ".";
+    }
 
-
-    //Uncommment this to return the value of your invoked message function
-
+    return message();
     //return message()
   }
 
@@ -127,12 +143,14 @@ counter = counterFactory(10);
 
     return {
       // Code here.
+      publicMethod : function() {
+        return privateMethod();
+      }
     };
 
   })();
 
-//Uncomment this after you create your public method
-//   module.publicMethod();
+  module.publicMethod();
 
 
 
@@ -143,28 +161,47 @@ counter = counterFactory(10);
 
 function timeOutCounter() {
   for (var i = 0; i <= 5; i++) {
+    newScope(i)
+  }
+
+  function newScope(i) {
     setTimeout(function() {
       console.log(i);
     }, i * 1000)
   }
-
-  function newScope(i) {
-    console.log(i)
-  }
 }
+
 timeOutCounter();
-  // To make this code work you will need to create a new scope for every iteration.
+
+
+
 
 
 
 
 
 //////////////////PROBLEM 8////////////////////
+var nums = [0, 1, 2, 3, 4, 5];
 
-var funcArray = [];
+function makeClosure(num) {
+  return function(){
+    return num;
+  }
+}
 
-/*
-  Make the following code work
+function makeFuncArray(nums) {
+  var functions = [];
+
+  for (var i = 0; i < nums.length; i++) {
+    var func = makeClosure(nums[i]);
+
+    functions.push(func);
+  }
+  return functions;
+}
+
+  var funcArray = makeFuncArray(nums);
+
 
   funcArray[0]() //0
   funcArray[1]() //1
@@ -173,5 +210,5 @@ var funcArray = [];
   funcArray[4]() //4
   funcArray[5]() //5
 
-  *Hint: Don't let this fool you. Break down what's really happening here.
+  /*Hint: Don't let this fool you. Break down what's really happening here.
 */
